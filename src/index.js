@@ -1,10 +1,13 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import ExpenseFormik from "./components/ExpenseForm";
-
+import { createStore } from "redux";
+import { Provider } from "react-redux";
+import rootReducer from "./reducers";
+import App from "./components/App";
+const store = createStore(rootReducer);
 ReactDOM.render(
-  <React.StrictMode>
-    <ExpenseFormik />
-  </React.StrictMode>,
+  <Provider store={store}>
+    <App />
+  </Provider>,
   document.getElementById("root")
 );
