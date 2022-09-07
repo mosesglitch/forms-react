@@ -1,13 +1,16 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import { createStore } from "redux";
-import { Provider } from "react-redux";
-import rootReducer from "./reducers";
-import App from "./components/App";
-const store = createStore(rootReducer);
+import HelloWorld from "./components/HelloWorld";
+import HelloWorldCSSTransition from "./components/HelloWorldCSSTransition";
 ReactDOM.render(
-  <Provider store={store}>
-    <App />
-  </Provider>,
+  <React.StrictMode>
+    <HelloWorld />
+  </React.StrictMode>,
   document.getElementById("root")
+);
+ReactDOM.render(
+  <React.StrictMode>
+    <HelloWorldCSSTransition />
+  </React.StrictMode>,
+  document.getElementById("reggea")
 );
