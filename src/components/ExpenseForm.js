@@ -1,17 +1,22 @@
 import React from "react";
 import "./ExpenseForm.css";
-
+const pits = { ans: "42" };
+//@Controlled Component
 class ExpenseForm extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      item: {},
+      item: {
+        weed: "shash",
+      },
     };
     this.handleNameChange = this.handleNameChange.bind(this);
     this.handleAmountChange = this.handleAmountChange.bind(this);
     this.handleDateChange = this.handleDateChange.bind(this);
     this.handleCategoryChange = this.handleCategoryChange.bind(this);
   }
+
+  //   pit = this.state.item.bind(pits);
   handleNameChange(e) {
     this.setState((state, props) => {
       let item = state.item;
@@ -35,13 +40,13 @@ class ExpenseForm extends React.Component {
   }
   handleCategoryChange(e) {
     this.setState((state, props) => {
-      let item = (state.itemitem.category = e.target.value);
+      let item = (state.item.category = e.target.value);
       return { item: item };
     });
   }
   onSubmit = (e) => {
     e.preventDefault();
-    alert(JSON.stringify(this.state.item));
+    alert(JSON.stringify(this.state.item, +"wassup"));
   };
   render() {
     return (
@@ -61,8 +66,7 @@ class ExpenseForm extends React.Component {
             type="number"
             id="amount"
             name="amount"
-            placeholder="Enter expense
-amount"
+            placeholder="Enter expense amount"
             value={this.state.item.amount}
             onChange={this.handleAmountChange}
           />
