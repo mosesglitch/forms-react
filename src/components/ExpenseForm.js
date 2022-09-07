@@ -1,100 +1,116 @@
 import React from "react";
+import { Formik } from "formik";
 import "./ExpenseForm.css";
-const pits = { ans: "42" };
-//@Controlled Component
-class ExpenseForm extends React.Component {
+class ExpenseFormik extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-      item: {
-        weed: "shash",
-      },
-    };
-    this.handleNameChange = this.handleNameChange.bind(this);
-    this.handleAmountChange = this.handleAmountChange.bind(this);
-    this.handleDateChange = this.handleDateChange.bind(this);
-    this.handleCategoryChange = this.handleCategoryChange.bind(this);
+    this.initialValues = { name: "", amount: "", date: "", category: "" };
   }
-
-  //   pit = this.state.item.bind(pits);
-  handleNameChange(e) {
-    this.setState((state, props) => {
-      let item = state.item;
-      item.name = e.target.value;
-      return { item: item };
-    });
-  }
-  handleAmountChange(e) {
-    this.setState((state, props) => {
-      let item = state.item;
-      item.amount = e.target.value;
-      return { item: item };
-    });
-  }
-  handleDateChange(e) {
-    this.setState((state, props) => {
-      let item = state.item;
-      item.date = e.target.value;
-      return { item: item };
-    });
-  }
-  handleCategoryChange(e) {
-    this.setState((state, props) => {
-      let item = (state.item.category = e.target.value);
-      return { item: item };
-    });
-  }
-  onSubmit = (e) => {
-    e.preventDefault();
-    alert(JSON.stringify(this.state.item, +"wassup"));
+  validate = (values) => {
+    const errors = {};
+    if (!values.name) {
+      errors.name = "Required";
+    }
+    if (!values.amount) {
+      errors.amount = "Required";
+    }
+    if (!values.date) {
+      errors.date = "Required";
+    }
+    if (!values.category) {
+      errors.category = "Required";
+    }
+    return errors;
+  };
+  handleSubmit = (values, setSubmitting) => {
+    setTimeout(() => {
+      alert(JSON.stringify(values, null, 2));
+      setSubmitting(false);
+    }, 400);
   };
   render() {
     return (
       <div id="expenseForm">
-        <form onSubmit={(e) => this.onSubmit(e)}>
-          <label for="name">Title</label>
-          <input
-            type="text"
-            id="name"
-            name="name"
-            placeholder="Enter expense title"
-            value={this.state.item.name}
-            onChange={this.handleNameChange}
-          />
-          <label for="amount">Amount</label>
-          <input
-            type="number"
-            id="amount"
-            name="amount"
-            placeholder="Enter expense amount"
-            value={this.state.item.amount}
-            onChange={this.handleAmountChange}
-          />
-          <label for="date">Spend Date</label>
-          <input
-            type="date"
-            id="date"
-            name="date"
-            placeholder="Enter date"
-            value={this.state.item.date}
-            onChange={this.handleDateChange}
-          />
-          <label for="category">Category</label>
-          <select
-            id="category"
-            name="category"
-            value={this.state.item.category}
-            onChange={this.handleCategoryChange}
-          >
-            <option value="">Select</option>
-            <option value="Food">Food</option>
-            <option value="Entertainment">Entertainment</option>
-            <option value="Academic">Academic</option>
-          </select>
-          <input type="submit" value="Submit" />
-        </form>
+        <Formik
+          initialValues={this.initialValues}
+          validate={(values) => this.validate(values)}
+          onSubmit={(values, { setSubmitting }) =>
+            this.handleSubmit(values, setSubmitting)
+          }
+        >
+          {({
+            values,
+            errors,
+            touched,
+            handleChange,
+            handleBlur,
+            handleSubmit,
+            isSubmitting,
+            /* and other goodies */
+          }) => (
+            <form onSubmit={handleSubmit}>
+              <label for="name">
+                Title <span>{errors.name && touched.name && errors.name}</span>
+              </label>
+              <input
+                type="text"
+                id="name"
+                name="name"
+                placeholder="Enter expense title"
+                onChange={handleChange}
+                onBlur={handleBlur}
+                value={values.name}
+              />
+              <label for="amount">
+                Amount{" "}
+                <span>{errors.amount && touched.amount && errors.amount}</span>
+              </label>
+              <input
+                type="number"
+                id="amount"
+                name="amount"
+                placeholder="Enter expense amount"
+                onChange={handleChange}
+                onBlur={handleBlur}
+                value={values.amount}
+              />
+              <label for="date">
+                Spend Date{" "}
+                <span>{errors.date && touched.date && errors.date}</span>
+              </label>
+              <input
+                type="date"
+                id="date"
+                name="date"
+                placeholder="Enter date"
+                onChange={handleChange}
+                onBlur={handleBlur}
+                value={values.date}
+              />
+              <label for="category">
+                Category
+                <span>
+                  {errors.category && touched.category && errors.category}
+                </span>
+              </label>
+              <select
+                id="category"
+                name="category"
+                onChange={handleChange}
+                onBlur={handleBlur}
+                value={values.category}
+              >
+                <option value="">Select</option>
+                <option value="Food">Food</option>
+                <option value="Entertainment">Entertainment</option>
+                <option value="Academic">Academic</option>
+              </select>
+              <input type="submit" value="Submit" disabled={isSubmitting} />
+            </form>
+          )}
+        </Formik>
       </div>
     );
   }
 }
-export default ExpenseForm;
+export default ExpenseFormik;
