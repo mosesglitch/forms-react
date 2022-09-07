@@ -1,9 +1,9 @@
 .hello-enter {
-  opacity: 5;
+  opacity: 1;
   transition: opacity 2000ms ease-in-out;
 }
 .hello-enter-active {
-  opacity: 5;
+  opacity: 1;
   transition: opacity 2000ms ease-in-out;
 }
 .hello-exit {
